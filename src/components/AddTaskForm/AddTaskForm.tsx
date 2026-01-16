@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Task, Priority, TaskCategory, TaskStatus } from '../../types/task.types';
 import { priorities, categories, statuses, getCategoryIcon } from '../../utils/taskHelpers';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import * as S from './AddTaskForm.styles';
 
 interface AddTaskFormProps {
@@ -16,24 +16,86 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({
   editingTask,
   onCancelEdit 
 }) => {
-  const [title, setTitle] = useState(editingTask?.title || '');
-  const [description, setDescription] = useState(editingTask?.description || '');
-  const [priority, setPriority] = useState<Priority>(editingTask?.priority || 'средний');
-  const [category, setCategory] = useState<TaskCategory>(editingTask?.category || 'работа');
-  const [status, setStatus] = useState<TaskStatus>(editingTask?.status || 'ожидает');
-  const [dueDate, setDueDate] = useState(() => {
-    if (editingTask?.dueDate) {
-      const date = typeof editingTask.dueDate === 'string' 
-        ? new Date(editingTask.dueDate) 
-        : editingTask.dueDate;
-      return format(date, "yyyy-MM-dd'T'HH:mm");
-    }
-    return '';
-  });
-  const [estimatedTime, setEstimatedTime] = useState(editingTask?.estimatedTime?.toString() || '');
-  const [tags, setTags] = useState<string[]>(editingTask?.tags || []);
+  // Состояния
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [priority, setPriority] = useState<Priority>('средний');
+  const [category, setCategory] = useState<TaskCategory>('работа');
+  const [status, setStatus] = useState<TaskStatus>('ожидает');
+  const [dueDate, setDueDate] = useState('');
+  const [estimatedTime, setEstimatedTime] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Эффект для загрузки данных при редактировании
+  useEffect(() => {
+    console.log('AddTaskForm: editingTask изменился', editingTask);
+    
+    if (editingTask) {
+      console.log('Загружаем данные задачи в форму:', editingTask.title);
+      
+      // Заполняем форму данными из editingTask
+      setTitle(editingTask.title || '');
+      setDescription(editingTask.description || '');
+      setPriority(editingTask.priority);
+      setCategory(editingTask.category);
+      setStatus(editingTask.status);
+      
+      // Обработка даты
+      if (editingTask.dueDate) {
+        try {
+          let dateObj: Date;
+          
+          if (typeof editingTask.dueDate === 'string') {
+            dateObj = parseISO(editingTask.dueDate);
+          } else {
+            dateObj = editingTask.dueDate;
+          }
+          
+          if (!isNaN(dateObj.getTime())) {
+            const formattedDate = format(dateObj, "yyyy-MM-dd'T'HH:mm");
+            console.log('Дата отформатирована:', formattedDate);
+            setDueDate(formattedDate);
+          } else {
+            console.warn('Неверная дата в задаче');
+            setDueDate('');
+          }
+        } catch (error) {
+          console.error('Ошибка при форматировании даты:', error);
+          setDueDate('');
+        }
+      } else {
+        setDueDate('');
+      }
+      
+      // Обработка времени
+      setEstimatedTime(editingTask.estimatedTime?.toString() || '');
+      
+      // Обработка тегов
+      setTags(editingTask.tags || []);
+      
+      // Сброс ошибок
+      setErrors({});
+    } else {
+      // Сброс формы если не редактируем
+      resetForm();
+    }
+  }, [editingTask]); // Зависимость от editingTask
+
+  const resetForm = () => {
+    console.log('Сброс формы');
+    setTitle('');
+    setDescription('');
+    setPriority('средний');
+    setCategory('работа');
+    setStatus('ожидает');
+    setDueDate('');
+    setEstimatedTime('');
+    setTags([]);
+    setTagInput('');
+    setErrors({});
+  };
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -58,6 +120,15 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({
     }
     
     const now = new Date();
+    let dueDateObj: Date | undefined;
+    
+    if (dueDate) {
+      dueDateObj = new Date(dueDate);
+      if (isNaN(dueDateObj.getTime())) {
+        dueDateObj = undefined;
+      }
+    }
+    
     const task: Task = {
       id: editingTask?.id || uuidv4(),
       title: title.trim(),
@@ -66,7 +137,7 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({
       priority,
       status,
       category,
-      dueDate: dueDate ? new Date(dueDate) : undefined,
+      dueDate: dueDateObj,
       createdAt: editingTask?.createdAt || now,
       updatedAt: now,
       tags,
@@ -75,19 +146,11 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({
       subtasks: editingTask?.subtasks || []
     };
     
+    console.log('Сохранение задачи:', task);
     onAddTask(task);
     
     if (!editingTask) {
-      // Сброс формы если не редактируем
-      setTitle('');
-      setDescription('');
-      setPriority('средний');
-      setCategory('работа');
-      setStatus('ожидает');
-      setDueDate('');
-      setEstimatedTime('');
-      setTags([]);
-      setTagInput('');
+      resetForm();
     }
   };
 
@@ -106,6 +169,8 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({
   };
 
   const quickAddTask = (type: string) => {
+    if (editingTask) return; // Не использовать быстрые добавления в режиме редактирования
+    
     const now = new Date();
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -152,9 +217,35 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({
     }
   };
 
+  console.log('Состояние формы:', {
+    title,
+    description,
+    priority,
+    category,
+    status,
+    dueDate,
+    estimatedTime,
+    tags,
+    isEditing: !!editingTask
+  });
+
   return (
     <S.FormContainer>
-      <S.FormTitle>{editingTask ? 'Редактировать задачу' : 'Добавить новую задачу'}</S.FormTitle>
+      <S.FormTitle>
+        {editingTask ? (
+          <>
+            ✏️ Редактировать задачу
+            <div style={{ 
+              fontSize: '0.75rem', 
+              color: '#666', 
+              fontWeight: 'normal',
+              marginTop: '0.25rem'
+            }}>
+              Редактирование: "{editingTask.title.substring(0, 30)}..."
+            </div>
+          </>
+        ) : 'Добавить новую задачу'}
+      </S.FormTitle>
       
       <form onSubmit={handleSubmit}>
         <S.FullWidthGroup>
@@ -164,6 +255,7 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Что нужно сделать?"
+            autoFocus={!!editingTask}
           />
           {errors.title && <S.ErrorMessage>{errors.title}</S.ErrorMessage>}
         </S.FullWidthGroup>
@@ -181,7 +273,10 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({
         <S.FormGrid>
           <S.FormGroup>
             <S.Label>Приоритет</S.Label>
-            <S.Select value={priority} onChange={(e) => setPriority(e.target.value as Priority)}>
+            <S.Select 
+              value={priority} 
+              onChange={(e) => setPriority(e.target.value as Priority)}
+            >
               {priorities.map(p => (
                 <option key={p} value={p}>
                   {p.charAt(0).toUpperCase() + p.slice(1)}
@@ -192,7 +287,10 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({
 
           <S.FormGroup>
             <S.Label>Категория</S.Label>
-            <S.Select value={category} onChange={(e) => setCategory(e.target.value as TaskCategory)}>
+            <S.Select 
+              value={category} 
+              onChange={(e) => setCategory(e.target.value as TaskCategory)}
+            >
               {categories.map(c => (
                 <option key={c} value={c}>
                   {getCategoryIcon(c)} {c.charAt(0).toUpperCase() + c.slice(1)}
@@ -203,7 +301,10 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({
 
           <S.FormGroup>
             <S.Label>Статус</S.Label>
-            <S.Select value={status} onChange={(e) => setStatus(e.target.value as TaskStatus)}>
+            <S.Select 
+              value={status} 
+              onChange={(e) => setStatus(e.target.value as TaskStatus)}
+            >
               {statuses.map(s => (
                 <option key={s} value={s}>
                   {s.charAt(0).toUpperCase() + s.slice(1)}
@@ -280,12 +381,15 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({
 
         <S.FormActions>
           {editingTask && onCancelEdit && (
-            <S.CancelButton type="button" onClick={onCancelEdit}>
-              Отмена
+            <S.CancelButton 
+              type="button" 
+              onClick={onCancelEdit}
+            >
+              ❌ Отмена редактирования
             </S.CancelButton>
           )}
           <S.SubmitButton type="submit">
-            {editingTask ? 'Обновить задачу' : 'Добавить задачу'}
+            {editingTask ? '💾 Сохранить изменения' : 'Добавить задачу'}
           </S.SubmitButton>
         </S.FormActions>
       </form>

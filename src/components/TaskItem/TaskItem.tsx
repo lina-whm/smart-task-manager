@@ -49,6 +49,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   
   const handleEditClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    console.log('Клик редактирования задачи:', task.title);
     onEdit(task);
   };
   
@@ -74,6 +75,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
           <S.IconButton 
             onClick={handleCompleteClick}
             title={task.completed ? 'Отметить как невыполненную' : 'Отметить как выполненную'}
+            aria-label={task.completed ? 'Отметить как невыполненную' : 'Отметить как выполненную'}
           >
             <FaCheck color={task.completed ? '#4CAF50' : '#999'} />
           </S.IconButton>
@@ -81,6 +83,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
           <S.IconButton 
             onClick={handleEditClick}
             title="Редактировать задачу"
+            aria-label="Редактировать задачу"
           >
             <FaEdit color="#2196F3" />
           </S.IconButton>
@@ -88,6 +91,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
           <S.IconButton 
             onClick={handleDeleteClick}
             title="Удалить задачу"
+            aria-label="Удалить задачу"
           >
             <FaTrash color="#F44336" />
           </S.IconButton>
@@ -95,12 +99,12 @@ const TaskItem: React.FC<TaskItemProps> = ({
       </S.TaskHeader>
       
       <S.TaskMeta>
-        <S.MetaItem>
+        <S.MetaItem title={`Категория: ${task.category}`}>
           <S.CategoryIcon>{categoryIcon}</S.CategoryIcon>
-          {task.category}
+          <span style={{ fontSize: '0.75rem' }}>{task.category}</span>
         </S.MetaItem>
         
-        <S.MetaItem color={priorityColor}>
+        <S.MetaItem color={priorityColor} title={`Приоритет: ${task.priority}`}>
           <div style={{
             width: '8px',
             height: '8px',
@@ -108,25 +112,34 @@ const TaskItem: React.FC<TaskItemProps> = ({
             backgroundColor: priorityColor,
             marginRight: '4px'
           }} />
-          {task.priority}
+          <span style={{ fontSize: '0.75rem' }}>{task.priority}</span>
         </S.MetaItem>
         
-        <S.StatusBadge color={statusColor}>
+        <S.StatusBadge color={statusColor} title={`Статус: ${task.status}`}>
           {task.status}
         </S.StatusBadge>
         
         {task.estimatedTime && (
-          <S.MetaItem>
-            <FaClock />
-            {task.estimatedTime} мин
+          <S.MetaItem title={`Оценка времени: ${task.estimatedTime} минут`}>
+            <FaClock size={10} />
+            <span style={{ fontSize: '0.75rem', marginLeft: '2px' }}>{task.estimatedTime} мин</span>
           </S.MetaItem>
         )}
         
         {task.dueDate && (
-          <S.MetaItem color={isTaskOverdue && !task.completed ? '#F44336' : '#666'}>
-            <FaCalendarAlt />
-            {formatDate(task.dueDate)}
-            {isTaskOverdue && !task.completed && ' ⚠️'}
+          <S.MetaItem 
+            color={isTaskOverdue && !task.completed ? '#F44336' : '#666'}
+            title={`Срок: ${formatDate(task.dueDate)}`}
+          >
+            <FaCalendarAlt size={10} />
+            <span style={{ 
+              fontSize: '0.75rem', 
+              marginLeft: '2px',
+              whiteSpace: 'nowrap'
+            }}>
+              {formatDate(task.dueDate).split(',')[0]}
+              {isTaskOverdue && !task.completed && ' ⚠️'}
+            </span>
           </S.MetaItem>
         )}
       </S.TaskMeta>
@@ -142,7 +155,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
               color: '#667eea', 
               cursor: 'pointer',
               marginLeft: '0.5rem',
-              fontSize: '0.75rem'
+              fontSize: '0.75rem',
+              fontWeight: '500'
             }}>
               {showFullDescription ? 'Скрыть' : 'Показать больше'}
             </span>
@@ -159,13 +173,15 @@ const TaskItem: React.FC<TaskItemProps> = ({
                 <S.Tag key={tag}>{tag}</S.Tag>
               ))}
               {task.tags.length > 3 && (
-                <S.Tag>+{task.tags.length - 3}</S.Tag>
+                <S.Tag title={task.tags.slice(3).join(', ')}>
+                  +{task.tags.length - 3}
+                </S.Tag>
               )}
             </S.TagsContainer>
           )}
         </div>
         
-        <S.TimeInfo>
+        <S.TimeInfo title={`Создано: ${getRelativeDate(task.createdAt)}`}>
           {getRelativeDate(task.createdAt)}
         </S.TimeInfo>
       </S.TaskFooter>

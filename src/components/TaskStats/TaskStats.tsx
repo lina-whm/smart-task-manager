@@ -24,6 +24,7 @@ const TaskStats: React.FC<TaskStatsProps> = ({ tasks, stats }) => {
       </S.StatsHeader>
       
       <S.StatsGrid>
+        {/* Верхний ряд: Всего задач и Выполнено */}
         <S.StatCard>
           <S.StatValue>{stats.total}</S.StatValue>
           <S.StatLabel>Всего задач</S.StatLabel>
@@ -34,6 +35,7 @@ const TaskStats: React.FC<TaskStatsProps> = ({ tasks, stats }) => {
           <S.StatLabel>Выполнено</S.StatLabel>
         </S.StatCard>
         
+        {/* Нижний ряд: В работе и Просрочено */}
         <S.StatCard>
           <S.StatValue>{stats.inProgress}</S.StatValue>
           <S.StatLabel>В работе</S.StatLabel>
@@ -62,9 +64,16 @@ const TaskStats: React.FC<TaskStatsProps> = ({ tasks, stats }) => {
       
       {suggestions.length > 0 && (
         <div style={{ marginTop: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '0.5rem', 
+            marginBottom: '0.75rem',
+            fontSize: '0.875rem',
+            fontWeight: '600'
+          }}>
             <FaLightbulb />
-            <strong>Умные подсказки</strong>
+            <span>Умные подсказки</span>
           </div>
           {suggestions.map((suggestion, index) => (
             <S.SuggestionItem key={index}>

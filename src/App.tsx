@@ -144,12 +144,33 @@ const App: React.FC = () => {
   };
 
   const handleEditTask = (task: Task) => {
-    setEditingTask(task);
-    // Прокрутка к форме
-    document.getElementById('task-form')?.scrollIntoView({ behavior: 'smooth' });
+    console.log('Начинаем редактирование задачи:', task.title);
+    
+    // Создаем глубокую копию задачи для редактирования
+    const taskForEditing: Task = {
+      ...task,
+      dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
+      createdAt: new Date(task.createdAt),
+      updatedAt: new Date(task.updatedAt),
+      tags: [...task.tags]
+    };
+    
+    setEditingTask(taskForEditing);
+    
+    // Прокрутка к форме с задержкой для гарантии
+    setTimeout(() => {
+      const formElement = document.getElementById('task-form');
+      if (formElement) {
+        formElement.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }, 100);
   };
 
   const handleCancelEdit = () => {
+    console.log('Отмена редактирования');
     setEditingTask(null);
   };
 
@@ -158,6 +179,10 @@ const App: React.FC = () => {
       setTasks(prevTasks => prevTasks.filter(task => !task.completed));
     }
   };
+
+  // Отладочный вывод
+  console.log('Текущая редактируемая задача:', editingTask);
+  console.log('ID редактируемой задачи:', editingTask?.id);
 
   return (
     <S.AppContainer>
@@ -182,6 +207,7 @@ const App: React.FC = () => {
           <S.MainContent>
             <S.Section id="task-form">
               <AddTaskForm
+                key={editingTask ? `edit-${editingTask.id}` : 'add-new'} // Ключ для принудительного ререндера
                 onAddTask={handleAddTask}
                 editingTask={editingTask}
                 onCancelEdit={handleCancelEdit}
@@ -217,70 +243,69 @@ const App: React.FC = () => {
             <S.Section>
               <h3 style={{ marginTop: 0, marginBottom: '1rem' }}>Быстрые действия</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-               <button
-      onClick={handleClearAllCompleted}
-      style={{
-        padding: '0.75rem 1rem',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
-        border: 'none',
-        borderRadius: '8px',
-        fontSize: '0.875rem',
-        fontWeight: '500',
-        cursor: 'pointer',
-        transition: 'transform 0.2s, box-shadow 0.2s'
-      }}
-      onMouseOver={(e) => {
-        e.currentTarget.style.transform = 'translateY(-1px)';
-        e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
-      }}
-      onMouseOut={(e) => {
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = 'none';
-      }}
-    >
-      🗑️ Удалить все выполненные
-    </button>
+                <button
+                  onClick={handleClearAllCompleted}
+                  style={{
+                    padding: '0.75rem 1rem',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '0.875rem',
+                    fontWeight: '500',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s, box-shadow 0.2s'
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  🗑️ Удалить все выполненные
+                </button>
                 
                 <button
-      onClick={() => {
-        const sampleTask: Task = {
-          id: uuidv4(),
-          title: 'Пример задачи',
-          description: 'Это пример задачи для начала работы',
-          completed: false,
-          priority: 'средний',
-          status: 'ожидает',
-          category: 'работа',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          tags: ['пример', 'демо']
-        };
-        handleAddTask(sampleTask);
-      }}
-      style={{
-        padding: '0.75rem 1rem',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
-        border: 'none',
-        borderRadius: '8px',
-        fontSize: '0.875rem',
-        fontWeight: '500',
-        cursor: 'pointer',
-        transition: 'transform 0.2s, box-shadow 0.2s'
-      }}
-      onMouseOver={(e) => {
-        e.currentTarget.style.transform = 'translateY(-1px)';
-        e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
-      }}
-      onMouseOut={(e) => {
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = 'none';
-      }}
-    >
-      🎯 Добавить пример
-    </button>
-                
+                  onClick={() => {
+                    const sampleTask: Task = {
+                      id: uuidv4(),
+                      title: 'Пример задачи',
+                      description: 'Это пример задачи для начала работы',
+                      completed: false,
+                      priority: 'средний',
+                      status: 'ожидает',
+                      category: 'работа',
+                      createdAt: new Date(),
+                      updatedAt: new Date(),
+                      tags: ['пример', 'демо']
+                    };
+                    handleAddTask(sampleTask);
+                  }}
+                  style={{
+                    padding: '0.75rem 1rem',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '0.875rem',
+                    fontWeight: '500',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s, box-shadow 0.2s'
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  🎯 Добавить пример
+                </button>
               </div>
             </S.Section>
 
@@ -291,7 +316,7 @@ const App: React.FC = () => {
                 paddingLeft: '1.25rem',
                 fontSize: '0.875rem',
                 lineHeight: '1.6',
-                color: '#000000'
+                color: '#555'
               }}>
                 <li>✅ Умные подсказки</li>
                 <li>✅ Расширенная фильтрация</li>
@@ -308,13 +333,13 @@ const App: React.FC = () => {
 
         <S.Footer>
           <S.FooterText>
-            <strong>Умный менеджер задач</strong> — Портфолио проект демонстрирующий современную разработку на React
+            <strong>Умный менеджер задач</strong> — Портфолио проект демонстрирующий современную разработку на React.
           </S.FooterText>
           <S.FooterText>
-            Технологии: TypeScript • Styled Components • Кастомные хуки • Продвинутое управление состоянием
+            Технологии: TypeScript • Styled Components • Кастомные хуки
           </S.FooterText>
           <S.FooterText style={{ fontSize: '0.75rem', opacity: 0.7 }}>
-            Данные сохраняются в Local Storage
+            Данные сохраняются в Local Storage.
           </S.FooterText>
         </S.Footer>
       </S.MainContainer>
