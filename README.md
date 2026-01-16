@@ -1,73 +1,57 @@
-# React + TypeScript + Vite
+# Умный менеджер задач (Smart Task Manager)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+-React
+-TypeScript
+-Vite
+-Styled Components
 
-Currently, two official plugins are available:
+Продвинутое приложение для управления задачами, разработанное как портфолио проект для демонстрации современных навыков React разработки.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Особенности
 
-## React Compiler
+### Основные функции
+- Умное добавление и управление задачами
+- Категоризация по приоритетам (низкий, средний, высокий, срочный)
+- Статистика и аналитика продуктивности
+- Расширенная фильтрация и поиск
+- Локальное хранение данных (Local Storage)
+- Полностью адаптивный дизайн
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Умные возможности
+- Автоматическое определение просроченных задач
+- Анализ уровня выполнения
+- Рекомендации по фокусировке
 
-## Expanding the ESLint configuration
+##  Технологический стек
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 18 - Библиотека для построения пользовательских интерфейсов
+- TypeScript - Статическая типизация для надежности кода
+- Vite- Современный инструмент сборки
+- Styled Components - CSS-in-JS для стилизации
+- date-fns - Работа с датами и временем
+- UUID - Генерация уникальных идентификаторов
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Быстрый старт
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Предварительные требования
+- Node.js 18+
+- npm или yarn
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Установка
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+```bash
+# Клонирование репозитория
+git clone https://github.com/lina-whm/smart-task-manager.git
+cd smart-task-manager
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+# Установка зависимостей
+npm install
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+# Запуск в режиме разработки
+npm run dev
+
+# Сборка для production
+npm run build
+
+# Превью сборки
+npm run preview
