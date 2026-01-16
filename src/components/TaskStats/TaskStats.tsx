@@ -52,6 +52,7 @@ const TaskStats: React.FC<TaskStatsProps> = ({ tasks, stats }) => {
             <S.PriorityStat
               key={priority}
               color={getPriorityColor(priority as Priority)}
+              title={`${count} ${priority}`}
             >
               {count} {priority}
             </S.PriorityStat>
@@ -70,7 +71,7 @@ const TaskStats: React.FC<TaskStatsProps> = ({ tasks, stats }) => {
               <S.SuggestionIcon>
                 <FaLightbulb />
               </S.SuggestionIcon>
-              {suggestion}
+              <span>{suggestion}</span>
             </S.SuggestionItem>
           ))}
         </div>

@@ -11,6 +11,12 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
   }
 
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+  }
+
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -18,15 +24,27 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
-    width: 100%;
-    overflow-x: hidden;
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
   }
 
   #root {
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    overflow-x: hidden;
+  }
+
+  /* Гарантируем что все контейнеры на 100% ширины */
+  .full-width {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
   }
 
   button {
@@ -38,6 +56,7 @@ const GlobalStyle = createGlobalStyle`
       monospace;
   }
 
+  /* Улучшенный скроллбар */
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;

@@ -5,9 +5,10 @@ export const StatsContainer = styled.div`
   border-radius: 12px;
   padding: 1.5rem;
   color: white;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* Добавлено чтобы содержимое не выходило за границы */
+  overflow: hidden;
+  width: 100%;
 `;
 
 export const StatsHeader = styled.div`
@@ -25,9 +26,14 @@ export const StatsTitle = styled.h2`
 
 export const StatsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
   margin-bottom: 1.5rem;
+  
+  @media (min-width: 480px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
 `;
 
 export const StatCard = styled.div`
@@ -53,39 +59,30 @@ export const StatLabel = styled.div`
 `;
 
 export const PriorityStats = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
   margin-top: 1rem;
-  overflow-x: auto;
-  padding-bottom: 0.5rem;
   
-  &::-webkit-scrollbar {
-    height: 4px;
-  }
-  
-  &::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 2px;
+  @media (min-width: 480px) {
+    grid-template-columns: repeat(4, 1fr);
   }
 `;
 
 export const PriorityStat = styled.div<{ color: string }>`
-  flex-shrink: 0; /* Важно для горизонтальной прокрутки */
-  min-width: 80px;
   background: ${props => props.color};
   border-radius: 6px;
-  padding: 0.5rem;
+  padding: 0.5rem 0.25rem;
   text-align: center;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
+
 export const SuggestionItem = styled.div`
   background: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
