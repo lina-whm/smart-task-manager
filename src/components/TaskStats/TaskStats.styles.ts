@@ -60,7 +60,11 @@ export const StatsGrid = styled.div`
     gap: 0.75rem;
     margin-bottom: 1.5rem;
   }
-  
+   /* На планшетах (768-1022px) также 2 колонки */
+  @media (min-width: 768px) and (max-width: 1022px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
   /* Десктопы: снова 2x2 чтобы все влезало */
   @media (min-width: 1024px) {
     grid-template-columns: repeat(2, 1fr);
