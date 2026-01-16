@@ -3,8 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    
+    <!-- PWA мета-теги -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#667eea" />
+    <meta name="description" content="Умный менеджер задач - приложение для управления задачами с аналитикой и умными подсказками" />
+    
+    <!-- Apple мета-теги -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Менеджер задач" />
+    <link rel="apple-touch-icon" href="/smart-task-manager/icon-192x192.png" />
+    
+    <!-- Манифест PWA -->
+    <link rel="manifest" href="/smart-task-manager/manifest.json" />
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/smart-task-manager/favicon.ico" type="image/x-icon" />
+    
     <title>Умный менеджер задач</title>
+    
     <style>
       html, body {
         margin: 0;
@@ -28,10 +46,91 @@
           min-height: -webkit-fill-available;
         }
       }
+      
+      /* Индикатор установки PWA */
+      #pwa-install-prompt {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        padding: 1rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        max-width: 90%;
+        width: 400px;
+      }
     </style>
   </head>
   <body>
     <div id="root"></div>
+    
+    <!-- Индикатор установки PWA -->
+    <div id="pwa-install-prompt">
+      <p style="margin: 0 0 1rem 0; font-weight: 500;">Установить приложение?</p>
+      <div style="display: flex; gap: 0.5rem;">
+        <button id="pwa-install-btn" style="
+          padding: 0.5rem 1rem;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-size: 0.875rem;
+          font-weight: 500;
+          cursor: pointer;
+          flex: 1;
+        ">Установить</button>
+        <button id="pwa-dismiss-btn" style="
+          padding: 0.5rem 1rem;
+          background: #f8f9fa;
+          color: #555;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          font-size: 0.875rem;
+          font-weight: 500;
+          cursor: pointer;
+          flex: 1;
+        ">Позже</button>
+      </div>
+    </div>
+    
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- PWA установка -->
+    <script>
+      let deferredPrompt;
+      
+      window.addEventListener('beforeinstallprompt', (e) => {
+        // Предотвращаем автоматическое отображение prompt
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        // Показываем нашу кастомную кнопку установки
+        const installPrompt = document.getElementById('pwa-install-prompt');
+        const installBtn = document.getElementById('pwa-install-btn');
+        const dismissBtn = document.getElementById('pwa-dismiss-btn');
+        
+        installPrompt.style.display = 'block';
+        
+        installBtn.addEventListener('click', async () => {
+          installPrompt.style.display = 'none';
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log(`Пользователь ${outcome} установку`);
+          deferredPrompt = null;
+        });
+        
+        dismissBtn.addEventListener('click', () => {
+          installPrompt.style.display = 'none';
+        });
+      });
+      
+      window.addEventListener('appinstalled', () => {
+        console.log('Приложение установлено');
+        deferredPrompt = null;
+      });
+    </script>
   </body>
 </html>
