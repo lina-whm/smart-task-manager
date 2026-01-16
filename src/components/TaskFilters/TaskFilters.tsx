@@ -95,41 +95,47 @@ const TaskFilters: React.FC<TaskFiltersProps> = ({
       </S.FiltersGrid>
 
       <S.FilterActions>
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <S.CheckboxLabel>
-            <S.Checkbox
-              type="checkbox"
-              checked={filters.showCompleted}
-              onChange={(e) => handleFilterChange('showCompleted', e.target.checked)}
-            />
-            Показывать выполненные
-          </S.CheckboxLabel>
+        {/* Верхняя строка: только чекбоксы */}
+        <S.FilterTopRow>
+          <S.CheckboxesContainer>
+            <S.CheckboxLabel>
+              <S.Checkbox
+                type="checkbox"
+                checked={filters.showCompleted}
+                onChange={(e) => handleFilterChange('showCompleted', e.target.checked)}
+              />
+              Показывать выполненные
+            </S.CheckboxLabel>
 
-          <S.CheckboxLabel>
-            <S.Checkbox
-              type="checkbox"
-              checked={filters.showOverdue}
-              onChange={(e) => handleFilterChange('showOverdue', e.target.checked)}
-            />
-            Только просроченные
-          </S.CheckboxLabel>
-        </div>
+            <S.CheckboxLabel>
+              <S.Checkbox
+                type="checkbox"
+                checked={filters.showOverdue}
+                onChange={(e) => handleFilterChange('showOverdue', e.target.checked)}
+              />
+              Только просроченные
+            </S.CheckboxLabel>
+          </S.CheckboxesContainer>
+        </S.FilterTopRow>
 
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <S.SortSelect
-            value={sortBy}
-            onChange={(e) => onSortChange(e.target.value)}
-          >
-            <option value="default">Сортировка: По умолчанию</option>
-            <option value="priority">Сортировка: По приоритету</option>
-            <option value="dueDate">Сортировка: По сроку</option>
-            <option value="createdAt">Сортировка: По дате создания</option>
-          </S.SortSelect>
+        {/* Нижняя строка: сортировка и кнопка сброса на одном уровне */}
+        <S.FilterBottomRow>
+          <S.SortAndResetContainer>
+            <S.SortSelect
+              value={sortBy}
+              onChange={(e) => onSortChange(e.target.value)}
+            >
+              <option value="default">Сортировка: По умолчанию</option>
+              <option value="priority">Сортировка: По приоритету</option>
+              <option value="dueDate">Сортировка: По сроку</option>
+              <option value="createdAt">Сортировка: По дате создания</option>
+            </S.SortSelect>
 
-          <S.ClearButton onClick={clearFilters}>
-            Сбросить фильтры
-          </S.ClearButton>
-        </div>
+            <S.ClearButton onClick={clearFilters}>
+              Сбросить фильтры
+            </S.ClearButton>
+          </S.SortAndResetContainer>
+        </S.FilterBottomRow>
       </S.FilterActions>
     </S.FiltersContainer>
   );

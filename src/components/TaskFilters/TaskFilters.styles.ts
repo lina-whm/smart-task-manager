@@ -4,26 +4,26 @@ export const FiltersContainer = styled.div`
   background: white;
   border-radius: 10px;
   padding: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   width: 100%;
+  overflow: visible;
   
   @media (min-width: 375px) {
     padding: 1.125rem;
+    border-radius: 11px;
+  }
+  
+  @media (min-width: 414px) {
+    padding: 1.25rem;
     border-radius: 12px;
   }
   
   @media (min-width: 768px) {
     padding: 1.5rem;
-    margin-bottom: 2rem;
     border-radius: 14px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  }
-  
-  @media (min-width: 1024px) {
-    padding: 1.5rem;
-    border-radius: 16px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 `;
 
@@ -31,7 +31,7 @@ export const FiltersHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   
   @media (min-width: 768px) {
     margin-bottom: 1.5rem;
@@ -52,37 +52,32 @@ export const FiltersTitle = styled.h3`
 export const FiltersGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  gap: 0.875rem;
+  margin-bottom: 1rem;
   width: 100%;
   
   @media (min-width: 480px) {
     grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (min-width: 768px) {
     gap: 1rem;
   }
   
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Уменьшил минимальную ширину */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   }
 `;
 
 export const FilterGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  gap: 0.5rem;
   width: 100%;
-  
-  @media (min-width: 768px) {
-    gap: 0.5rem;
-  }
 `;
 
 export const FilterLabel = styled.label`
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   color: #555;
   
@@ -95,7 +90,7 @@ export const Select = styled.select`
   padding: 0.5rem 0.625rem;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   background-color: #fafafa;
   color: #333;
   transition: all 0.2s;
@@ -123,7 +118,7 @@ export const SearchInput = styled.input`
   padding: 0.5rem 0.625rem;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   background-color: #fafafa;
   color: #333;
   transition: all 0.2s;
@@ -150,10 +145,17 @@ export const SearchInput = styled.input`
 export const FilterActions = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
   border-top: 1px solid #eee;
+  width: 100%;
+`;
+
+export const FilterTopRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   width: 100%;
   
   @media (min-width: 640px) {
@@ -163,35 +165,55 @@ export const FilterActions = styled.div`
   }
 `;
 
-export const SortSelect = styled(Select)`
+export const FilterBottomRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   width: 100%;
   
   @media (min-width: 640px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 1024px) {
+    justify-content: flex-end;
+    gap: 1.5rem;
+  }
+`;
+
+export const SortSelect = styled(Select)`
+  width: 100%;
+  
+  @media (min-width: 1024px) {
     width: auto;
-    min-width: 140px;
+    min-width: 200px;
+    margin-right: auto; /* ← Выравнивает слева */
   }
 `;
 
 export const CheckboxLabel = styled.label`
   display: flex;
   align-items: center;
-  gap: 0.375rem;
-  font-size: 0.75rem;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
   color: #555;
   cursor: pointer;
   white-space: nowrap;
   
   @media (min-width: 768px) {
     font-size: 0.875rem;
-    gap: 0.5rem;
   }
 `;
 
 export const Checkbox = styled.input`
-  width: 0.875rem;
-  height: 0.875rem;
+  width: 1rem;
+  height: 1rem;
   border-radius: 4px;
   cursor: pointer;
+  flex-shrink: 0;
   
   @media (min-width: 768px) {
     width: 1.125rem;
@@ -205,22 +227,27 @@ export const Checkbox = styled.input`
 `;
 
 export const ClearButton = styled.button`
-  padding: 0.5rem 1rem;
+  padding: 0.625rem 1.5rem;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.2s;
   width: 100%;
   white-space: nowrap;
+  flex-shrink: 0;
   
-  @media (min-width: 640px) {
+  @media (min-width: 480px) {
     width: auto;
-    padding: 0.625rem 1.25rem;
-    font-size: 0.875rem;
+  }
+  
+  @media (min-width: 1024px) {
+    padding: 0.75rem 2rem;
+    min-width: 160px;
+    margin-left: auto; /* ← Выравнивает справа */
   }
   
   &:hover {
@@ -232,17 +259,45 @@ export const ClearButton = styled.button`
     transform: translateY(0);
   }
 `;
-
-export const FilterButtonsContainer = styled.div`
+export const CheckboxesContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
   width: 100%;
   
-  @media (min-width: 640px) {
+  @media (min-width: 480px) {
     flex-direction: row;
-    align-items: center;
-    gap: 0.75rem;
+    gap: 1.25rem;
+  }
+  
+  @media (min-width: 640px) {
     width: auto;
+  }
+`;
+
+export const SortAndResetContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  width: 100%;
+  
+  @media (min-width: 480px) {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    grid-template-columns: auto auto;
+    gap: 1.5rem;
+    width: 100%;
+  }
+  
+  @media (min-width: 1024px) {
+    display: flex;
+    justify-content: space-between; /* ← Вот это выровняет слева и справа */
+    align-items: center;
+    width: 100%;
+    gap: 1.5rem;
   }
 `;
