@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "date-fns": "^3.0.6",
@@ -23,11 +24,19 @@
     "@types/react-dom": "^18.2.18",
     "@types/uuid": "^9.0.7",
     "@vitejs/plugin-react": "^4.2.1",
+    "gh-pages": "^6.3.0",
     "typescript": "^5.3.3",
     "vite": "^5.0.8"
   },
+  "homepage": "https://lina-whm.github.io/smart-task-manager",
   "description": "Умный менеджер задач - Интеллектуальное приложение для управления задачами",
-  "keywords": ["react", "typescript", "portfolio", "task-manager", "styled-components"],
+  "keywords": [
+    "react",
+    "typescript",
+    "portfolio",
+    "task-manager",
+    "styled-components"
+  ],
   "author": "Ваше Имя",
   "license": "MIT"
 }
