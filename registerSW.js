@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/smart-task-manager/sw.js', { scope: '/smart-task-manager/' })})}

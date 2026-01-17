@@ -1,0 +1,43 @@
+{
+  "name": "Умный менеджер задач",
+  "short_name": "Менеджер задач",
+  "description": "Интеллектуальное приложение для управления задачами с умными подсказками и аналитикой",
+  "start_url": "/smart-task-manager/",
+  "display": "standalone",
+  "background_color": "#f5f7fa",
+  "theme_color": "#667eea",
+  "orientation": "portrait",
+  "scope": "/smart-task-manager/",
+  "lang": "ru",
+  "categories": ["productivity", "utilities"],
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Добавить задачу",
+      "short_name": "Добавить",
+      "description": "Быстро добавить новую задачу",
+      "url": "/smart-task-manager/#add-task"
+    },
+    {
+      "name": "Просмотреть задачи",
+      "short_name": "Задачи",
+      "description": "Показать все задачи",
+      "url": "/smart-task-manager/#tasks"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
