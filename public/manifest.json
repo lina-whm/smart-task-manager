@@ -9,18 +9,35 @@
   "orientation": "portrait",
   "scope": "/smart-task-manager/",
   "lang": "ru",
-  "icons": [
+  "categories": ["productivity", "utilities"],
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "shortcuts": [
     {
-      "src": "/smart-task-manager/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
+      "name": "Добавить задачу",
+      "short_name": "Добавить",
+      "description": "Быстро добавить новую задачу",
+      "url": "/smart-task-manager/#add-task"
     },
     {
-      "src": "/smart-task-manager/icon-512x512.png",
+      "name": "Просмотреть задачи",
+      "short_name": "Задачи",
+      "description": "Показать все задачи",
+      "url": "/smart-task-manager/#tasks"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }

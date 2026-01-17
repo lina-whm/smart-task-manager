@@ -4,6 +4,21 @@ import { Task, TaskStats as TaskStatsType, Priority } from '../../types/task.typ
 import { getPriorityColor } from '../../utils/taskHelpers';
 import { generateSmartSuggestions } from '../../utils/taskHelpers';
 import * as S from './TaskStats.styles';
+import styled from 'styled-components';
+
+const SuggestionsTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white !important; /* Всегда белый текст */
+  
+  @media (min-width: 768px) {
+    font-size: 0.875rem;
+  }
+`;
 
 interface TaskStatsProps {
   tasks: Task[];
@@ -18,13 +33,12 @@ const TaskStats: React.FC<TaskStatsProps> = ({ tasks, stats }) => {
     <S.StatsContainer>
       <S.StatsHeader>
         <S.StatsTitle>Статистика задач</S.StatsTitle>
-        <div style={{ fontSize: '0.875rem', opacity: 0.9 }}>
+        <div style={{ fontSize: '0.875rem', opacity: 0.9, color: 'white' }}>
           {completionRate}% выполнено
         </div>
       </S.StatsHeader>
       
       <S.StatsGrid>
-        {/* Верхний ряд: Всего задач и Выполнено */}
         <S.StatCard>
           <S.StatValue>{stats.total}</S.StatValue>
           <S.StatLabel>Всего задач</S.StatLabel>
@@ -35,7 +49,6 @@ const TaskStats: React.FC<TaskStatsProps> = ({ tasks, stats }) => {
           <S.StatLabel>Выполнено</S.StatLabel>
         </S.StatCard>
         
-        {/* Нижний ряд: В работе и Просрочено */}
         <S.StatCard>
           <S.StatValue>{stats.inProgress}</S.StatValue>
           <S.StatLabel>В работе</S.StatLabel>
@@ -64,17 +77,10 @@ const TaskStats: React.FC<TaskStatsProps> = ({ tasks, stats }) => {
       
       {suggestions.length > 0 && (
         <div style={{ marginTop: '1.5rem' }}>
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '0.5rem', 
-            marginBottom: '0.75rem',
-            fontSize: '0.875rem',
-            fontWeight: '600'
-          }}>
+          <SuggestionsTitle>
             <FaLightbulb />
             <span>Умные подсказки</span>
-          </div>
+          </SuggestionsTitle>
           {suggestions.map((suggestion, index) => (
             <S.SuggestionItem key={index}>
               <S.SuggestionIcon>

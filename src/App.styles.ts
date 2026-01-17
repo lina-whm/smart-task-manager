@@ -2,11 +2,27 @@ import styled from 'styled-components';
 
 export const AppContainer = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   width: 100vw;
   max-width: 100%;
   overflow-x: hidden;
   position: relative;
+  transition: background 0.3s ease;
+  
+  &.light-theme {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    
+    &:before {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+  }
+  
+  &.dark-theme {
+    background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+    
+    &:before {
+      background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+    }
+  }
   
   &:before {
     content: '';
@@ -15,46 +31,29 @@ export const AppContainer = styled.div`
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     z-index: -1;
+    transition: background 0.3s ease;
   }
 `;
 
 export const MainContainer = styled.main`
   max-width: 1600px;
   margin: 0 auto;
-  padding: 1rem; /* Уменьшил для мобильных */
+  padding: 1rem;
   width: 100%;
   
-  /* iPhone SE, iPhone XR и маленькие телефоны */
-  @media (min-width: 375px) {
-    padding: 1rem 1.25rem;
-  }
-  
-  /* Большие телефоны (iPhone 12 Pro, Samsung S8+) */
-  @media (min-width: 414px) {
-    padding: 1.25rem 1.5rem;
-  }
-  
-  /* Планшеты (iPad mini, iPad Air) */
-  @media (min-width: 768px) {
-    padding: 1.5rem 2rem;
-  }
-  
-  /* Большие планшеты (iPad Pro) */
-  @media (min-width: 1024px) {
+  @media (min-width: 375px) { padding: 1rem 1.25rem; }
+  @media (min-width: 414px) { padding: 1.25rem 1.5rem; }
+  @media (min-width: 768px) { padding: 1.5rem 2rem; }
+  @media (min-width: 1024px) { 
     max-width: 1200px;
     padding: 2rem 2.5rem;
   }
-  
-  /* Десктопы */
-  @media (min-width: 1440px) {
+  @media (min-width: 1440px) { 
     max-width: 1400px;
     padding: 2rem 3rem;
   }
-  
-  /* Большие экраны */
-  @media (min-width: 1920px) {
+  @media (min-width: 1920px) { 
     max-width: 1800px;
     padding: 3rem 4rem;
   }
@@ -62,79 +61,77 @@ export const MainContainer = styled.main`
 
 export const Header = styled.header`
   text-align: center;
-  margin-bottom: 1.5rem; /* Уменьшил для мобильных */
+  margin-bottom: 1.5rem;
   width: 100%;
   
-  @media (min-width: 768px) {
-    margin-bottom: 2rem;
-  }
-  
-  @media (min-width: 1024px) {
-    margin-bottom: 3rem;
-  }
+  @media (min-width: 768px) { margin-bottom: 2rem; }
+  @media (min-width: 1024px) { margin-bottom: 3rem; }
 `;
 
 export const Title = styled.h1`
-  font-size: 1.5rem; /* Еще меньше для мобильных */
+  font-size: 1.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   margin-bottom: 0.5rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 0 0.25rem; /* Уменьшил отступы */
+  padding: 0 0.25rem;
+  transition: all 0.3s ease;
   
-  /* iPhone SE (самый маленький) */
-  @media (min-width: 375px) {
-    font-size: 1.625rem;
+  .light-theme & {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   
-  /* iPhone XR, 12 Pro */
-  @media (min-width: 414px) {
+  .dark-theme & {
+    background: linear-gradient(135deg, #8a9eff 0%, #a366c9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  @media (min-width: 375px) { font-size: 1.625rem; }
+  @media (min-width: 414px) { 
     font-size: 1.75rem;
     padding: 0;
   }
-  
-  @media (min-width: 768px) {
+  @media (min-width: 768px) { 
     font-size: 2.25rem;
     margin-bottom: 0.75rem;
   }
-  
-  @media (min-width: 1024px) {
-    font-size: 2.75rem;
-  }
-  
-  @media (min-width: 1440px) {
+  @media (min-width: 1024px) { font-size: 2.75rem; }
+  @media (min-width: 1440px) { 
     font-size: 3rem;
     margin-bottom: 1rem;
   }
 `;
 
 export const Subtitle = styled.p`
-  font-size: 0.9375rem; /* Уменьшил для мобильных */
-  color: #555;
+  font-size: 0.9375rem;
   margin: 0 auto 1rem;
   line-height: 1.5;
   font-weight: 400;
   padding: 0 0.25rem;
+  transition: color 0.3s ease;
   
-  @media (min-width: 375px) {
-    font-size: 1rem;
+  .light-theme & {
+    color: #555;
   }
   
-  @media (min-width: 414px) {
+  .dark-theme & {
+    color: #aaa;
+  }
+  
+  @media (min-width: 375px) { font-size: 1rem; }
+  @media (min-width: 414px) { 
     font-size: 1.0625rem;
     padding: 0;
     line-height: 1.6;
   }
-  
-  @media (min-width: 768px) {
+  @media (min-width: 768px) { 
     font-size: 1.125rem;
     margin-bottom: 1.5rem;
     line-height: 1.6;
   }
-  
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) { 
     font-size: 1.25rem;
     margin-bottom: 2rem;
     line-height: 1.7;
@@ -145,19 +142,15 @@ export const Subtitle = styled.p`
 export const ContentLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem; /* Уменьшил для мобильных */
+  gap: 1.25rem;
   width: 100%;
   
-  @media (min-width: 768px) {
-    gap: 1.5rem;
-  }
-  
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) { gap: 1.5rem; }
+  @media (min-width: 1024px) { 
     grid-template-columns: 1fr 350px;
     gap: 2rem;
   }
-  
-  @media (min-width: 1440px) {
+  @media (min-width: 1440px) { 
     grid-template-columns: 1fr 380px;
     gap: 2.5rem;
   }
@@ -165,12 +158,12 @@ export const ContentLayout = styled.div`
 
 export const MainContent = styled.div`
   width: 100%;
-  overflow: hidden; /* Важно! */
+  overflow: hidden;
 `;
 
 export const Sidebar = styled.div`
   width: 100%;
-  overflow: hidden; /* Важно! */
+  overflow: hidden;
   
   @media (min-width: 768px) and (max-width: 1023px) {
     display: grid;
@@ -186,62 +179,96 @@ export const Sidebar = styled.div`
 `;
 
 export const Section = styled.section`
-  background: white;
-  border-radius: 10px; /* Уменьшил для мобильных */
-  padding: 1rem; /* Уменьшил для мобильных */
+  border-radius: 10px;
+  padding: 1rem;
   margin-bottom: 1.25rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   width: 100%;
-  overflow: hidden; /* Важно для предотвращения выхода за границы */
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+  .light-theme & {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+  
+  .dark-theme & {
+    background: #1e1e1e;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 1px solid #333;
+  }
   
   &:last-child {
     margin-bottom: 0;
   }
   
-  /* Для очень маленьких экранов (iPhone SE) */
   @media (max-width: 374px) {
     padding: 0.875rem;
     border-radius: 8px;
   }
-  
   @media (min-width: 375px) {
     padding: 1rem;
     border-radius: 10px;
   }
-  
   @media (min-width: 414px) {
     padding: 1.125rem;
     border-radius: 11px;
   }
-  
   @media (min-width: 768px) {
     padding: 1.25rem;
     border-radius: 12px;
     margin-bottom: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    
+    .light-theme & {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    
+    .dark-theme & {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
   }
-  
   @media (min-width: 1024px) {
     padding: 1.5rem;
     border-radius: 14px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    
+    .light-theme & {
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+    
+    .dark-theme & {
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    }
   }
-  
   @media (min-width: 1440px) {
     padding: 1.75rem;
     border-radius: 16px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    
+    .light-theme & {
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    }
+    
+    .dark-theme & {
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+    }
   }
 `;
 
 export const Footer = styled.footer`
   text-align: center;
-  padding: 1.5rem 0; /* Уменьшил для мобильных */
-  color: #666;
-  font-size: 0.8125rem; /* Уменьшил */
+  padding: 1.5rem 0;
+  font-size: 0.8125rem;
   margin-top: 2rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
   width: 100%;
+  transition: all 0.3s ease;
+  
+  .light-theme & {
+    color: #666;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark-theme & {
+    color: #aaa;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
   
   @media (min-width: 768px) {
     padding: 2rem 0;
@@ -262,6 +289,11 @@ export const FooterText = styled.p`
   margin: 0.5rem 0;
   line-height: 1.5;
   padding: 0 0.5rem;
+  transition: color 0.3s ease;
+  
+  .dark-theme & {
+    color: #ccc;
+  }
   
   @media (min-width: 768px) {
     margin: 0.75rem 0;
@@ -294,16 +326,26 @@ export const TechStack = styled.div`
 `;
 
 export const TechBadge = styled.span`
-  background: white;
-  color: #667eea;
   padding: 0.375rem 0.75rem;
   border-radius: 20px;
   font-size: 0.75rem;
   font-weight: 600;
   border: 1px solid rgba(102, 126, 234, 0.2);
   box-shadow: 0 2px 6px rgba(102, 126, 234, 0.1);
-  transition: all 0.2s;
-  white-space: nowrap; /* Предотвращает перенос */
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  
+  .light-theme & {
+    background: white;
+    color: #667eea;
+  }
+  
+  .dark-theme & {
+    background: #2d2d3d;
+    color: #8a9eff;
+    border-color: rgba(138, 158, 255, 0.3);
+    box-shadow: 0 2px 6px rgba(138, 158, 255, 0.2);
+  }
   
   @media (min-width: 414px) {
     padding: 0.5rem 1rem;
@@ -317,18 +359,34 @@ export const TechBadge = styled.span`
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-    background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+    
+    .light-theme & {
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+      background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+    }
+    
+    .dark-theme & {
+      box-shadow: 0 4px 12px rgba(138, 158, 255, 0.3);
+      background: linear-gradient(135deg, #8a9eff20 0%, #a366c920 100%);
+    }
   }
 `;
 
 export const GradientLine = styled.div`
   height: 2px;
   width: 60px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 2px;
   margin: 0.5rem auto;
   opacity: 0.7;
+  transition: all 0.3s ease;
+  
+  .light-theme & {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  .dark-theme & {
+    background: linear-gradient(135deg, #8a9eff 0%, #a366c9 100%);
+  }
   
   @media (min-width: 768px) {
     height: 3px;

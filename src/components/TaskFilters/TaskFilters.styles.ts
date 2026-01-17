@@ -1,13 +1,23 @@
 import styled from 'styled-components';
 
 export const FiltersContainer = styled.div`
-  background: white;
   border-radius: 10px;
   padding: 1rem;
   margin-bottom: 1.25rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   width: 100%;
   overflow: visible;
+  transition: all 0.3s ease;
+  
+  .light-theme & {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+  
+  .dark-theme & {
+    background: #1e1e1e;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 1px solid #333;
+  }
   
   @media (min-width: 375px) {
     padding: 1.125rem;
@@ -23,7 +33,14 @@ export const FiltersContainer = styled.div`
     padding: 1.5rem;
     border-radius: 14px;
     margin-bottom: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    
+    .light-theme & {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    
+    .dark-theme & {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
   }
 `;
 
@@ -42,7 +59,15 @@ export const FiltersTitle = styled.h3`
   font-size: 1.125rem;
   font-weight: 600;
   margin: 0;
-  color: #333;
+  transition: color 0.3s ease;
+  
+  .light-theme & {
+    color: #333;
+  }
+  
+  .dark-theme & {
+    color: #e0e0e0;
+  }
   
   @media (min-width: 768px) {
     font-size: 1.125rem;
@@ -79,7 +104,15 @@ export const FilterGroup = styled.div`
 export const FilterLabel = styled.label`
   font-size: 0.8125rem;
   font-weight: 500;
-  color: #555;
+  transition: color 0.3s ease;
+  
+  .light-theme & {
+    color: #555;
+  }
+  
+  .dark-theme & {
+    color: #aaa;
+  }
   
   @media (min-width: 768px) {
     font-size: 0.875rem;
@@ -88,57 +121,99 @@ export const FilterLabel = styled.label`
 
 export const Select = styled.select`
   padding: 0.5rem 0.625rem;
-  border: 1px solid #e0e0e0;
   border-radius: 8px;
   font-size: 0.8125rem;
-  background-color: #fafafa;
-  color: #333;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
   width: 100%;
+  
+  .light-theme & {
+    border: 1px solid #e0e0e0;
+    background-color: #fafafa;
+    color: #333;
+    
+    &:focus {
+      outline: none;
+      border-color: #667eea;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    option {
+      background-color: white;
+      color: #333;
+    }
+  }
+  
+  .dark-theme & {
+    border: 1px solid #444;
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+    
+    &:focus {
+      outline: none;
+      border-color: #8a9eff;
+      background-color: #333;
+      box-shadow: 0 0 0 3px rgba(138, 158, 255, 0.2);
+    }
+    
+    option {
+      background-color: #2d2d2d;
+      color: #e0e0e0;
+    }
+  }
   
   @media (min-width: 768px) {
     padding: 0.625rem 0.75rem;
     font-size: 0.875rem;
-  }
-  
-  &:focus {
-    outline: none;
-    border-color: #667eea;
-    background-color: white;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-  }
-  
-  option {
-    background-color: white;
-    color: #333;
   }
 `;
 
 export const SearchInput = styled.input`
   padding: 0.5rem 0.625rem;
-  border: 1px solid #e0e0e0;
   border-radius: 8px;
   font-size: 0.8125rem;
-  background-color: #fafafa;
-  color: #333;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
   width: 100%;
+  
+  .light-theme & {
+    border: 1px solid #e0e0e0;
+    background-color: #fafafa;
+    color: #333;
+    
+    &:focus {
+      outline: none;
+      border-color: #667eea;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    &::placeholder {
+      color: #666;
+      opacity: 0.8;
+    }
+  }
+  
+  .dark-theme & {
+    border: 1px solid #444;
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+    
+    &:focus {
+      outline: none;
+      border-color: #8a9eff;
+      background-color: #333;
+      box-shadow: 0 0 0 3px rgba(138, 158, 255, 0.2);
+    }
+    
+    &::placeholder {
+      color: #999;
+      opacity: 0.8;
+    }
+  }
   
   @media (min-width: 768px) {
     padding: 0.625rem 0.75rem;
     font-size: 0.875rem;
-  }
-  
-  &:focus {
-    outline: none;
-    border-color: #667eea;
-    background-color: white;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-  }
-  
-  &::placeholder {
-    color: #666;
-    opacity: 0.8;
   }
 `;
 
@@ -148,8 +223,17 @@ export const FilterActions = styled.div`
   gap: 1rem;
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid #eee;
+  border-top: 1px solid;
   width: 100%;
+  transition: border-color 0.3s ease;
+  
+  .light-theme & {
+    border-top-color: #eee;
+  }
+  
+  .dark-theme & {
+    border-top-color: #444;
+  }
 `;
 
 export const FilterTopRow = styled.div`
@@ -190,7 +274,7 @@ export const SortSelect = styled(Select)`
   @media (min-width: 1024px) {
     width: auto;
     min-width: 200px;
-    margin-right: auto; /* ← Выравнивает слева */
+    margin-right: auto;
   }
 `;
 
@@ -199,9 +283,17 @@ export const CheckboxLabel = styled.label`
   align-items: center;
   gap: 0.5rem;
   font-size: 0.8125rem;
-  color: #555;
   cursor: pointer;
   white-space: nowrap;
+  transition: color 0.3s ease;
+  
+  .light-theme & {
+    color: #555;
+  }
+  
+  .dark-theme & {
+    color: #ccc;
+  }
   
   @media (min-width: 768px) {
     font-size: 0.875rem;
@@ -214,31 +306,97 @@ export const Checkbox = styled.input`
   border-radius: 4px;
   cursor: pointer;
   flex-shrink: 0;
+  transition: all 0.3s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  
+  .light-theme & {
+    border: 2px solid #ddd;
+    background-color: white;
+    
+    &:checked {
+      background-color: #667eea;
+      border-color: #667eea;
+    }
+    
+    &:checked:after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+  }
+  
+  .dark-theme & {
+    border: 2px solid #666;
+    background-color: #2d2d2d;
+    
+    &:checked {
+      background-color: #8a9eff;
+      border-color: #8a9eff;
+    }
+    
+    &:checked:after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+  }
   
   @media (min-width: 768px) {
     width: 1.125rem;
     height: 1.125rem;
-  }
-  
-  &:checked {
-    background-color: #667eea;
-    border-color: #667eea;
+    
+    &:checked:after {
+      font-size: 0.875rem;
+    }
   }
 `;
 
 export const ClearButton = styled.button`
   padding: 0.625rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
   width: 100%;
   white-space: nowrap;
   flex-shrink: 0;
+  
+  .light-theme & {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+  }
+  
+  .dark-theme & {
+    background: linear-gradient(135deg, #2a2d3e 0%, #3a2d4e 100%);
+    
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(90, 111, 216, 0.4);
+    }
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
   
   @media (min-width: 480px) {
     width: auto;
@@ -247,18 +405,10 @@ export const ClearButton = styled.button`
   @media (min-width: 1024px) {
     padding: 0.75rem 2rem;
     min-width: 160px;
-    margin-left: auto; /* ← Выравнивает справа */
-  }
-  
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-  }
-  
-  &:active {
-    transform: translateY(0);
+    margin-left: auto;
   }
 `;
+
 export const CheckboxesContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -295,7 +445,7 @@ export const SortAndResetContainer = styled.div`
   
   @media (min-width: 1024px) {
     display: flex;
-    justify-content: space-between; /* ← Вот это выровняет слева и справа */
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     gap: 1.5rem;

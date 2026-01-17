@@ -40,7 +40,9 @@ export default defineConfig({
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+           globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,json}'],
+            clientsClaim: true,    // быстрые обновления
+            skipWaiting: true,     // без ожидания
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -71,5 +73,11 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
+    minify: 'terser', 
+     terserOptions: {
+    compress: {
+      drop_console: true // чистит логи в продакшене
+    }
+  }
   },
 })

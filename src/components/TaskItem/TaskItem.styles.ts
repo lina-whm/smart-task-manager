@@ -1,19 +1,33 @@
 import styled from 'styled-components';
 
 export const TaskItemContainer = styled.div<{ completed: boolean; priority: string }>`
-  background: white;
   border-radius: 10px;
   padding: 1rem;
   margin-bottom: 0.75rem;
   border-left: 3px solid ${props => props.priority};
   opacity: ${props => props.completed ? 0.7 : 1};
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   width: 100%;
   
-  &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
+  .light-theme & {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+  }
+  
+  .dark-theme & {
+    background: #1e1e1e;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 1px solid #333;
+    
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      transform: translateY(-2px);
+    }
   }
   
   @media (min-width: 768px) {
@@ -40,10 +54,19 @@ export const TaskHeader = styled.div`
 export const TaskTitle = styled.div<{ completed: boolean }>`
   font-size: 1rem;
   font-weight: 600;
-  color: ${props => props.completed ? '#999' : '#333'};
-  text-decoration: ${props => props.completed ? 'line-through' : 'none'};
   flex: 1;
   word-break: break-word;
+  transition: color 0.3s ease;
+  
+  .light-theme & {
+    color: ${props => props.completed ? '#999' : '#333'};
+  }
+  
+  .dark-theme & {
+    color: ${props => props.completed ? '#888' : '#e0e0e0'};
+  }
+  
+  text-decoration: ${props => props.completed ? 'line-through' : 'none'};
   
   @media (min-width: 768px) {
     font-size: 1.125rem;
@@ -61,31 +84,49 @@ export const TaskActions = styled.div`
 `;
 
 export const IconButton = styled.button`
-  background: #fafafa;
-  border: 1px solid #e0e0e0;
-  color: #666;
+  border: 1px solid;
   cursor: pointer;
   padding: 0.375rem;
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
   min-width: 28px;
   min-height: 28px;
+  
+  .light-theme & {
+    background: #fafafa;
+    border-color: #e0e0e0;
+    color: #666;
+    
+    &:hover {
+      background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+      color: #667eea;
+      border-color: #667eea;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(102, 126, 234, 0.2);
+    }
+  }
+  
+  .dark-theme & {
+    background: #2a2d3e;
+    border-color: #444;
+    color: #b0b0d0;
+    
+    &:hover {
+      background: linear-gradient(135deg, #2a2d3e 0%, #3a2d4e 100%);
+      color: #ffffff;
+      border-color: #667eea;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+    }
+  }
   
   @media (min-width: 768px) {
     padding: 0.5rem;
     min-width: 36px;
     min-height: 36px;
-  }
-  
-  &:hover {
-    background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
-    color: #667eea;
-    border-color: #667eea;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(102, 126, 234, 0.2);
   }
 `;
 
@@ -95,7 +136,14 @@ export const TaskMeta = styled.div`
   gap: 0.5rem;
   margin-bottom: 0.5rem;
   font-size: 0.625rem;
-  color: #666;
+  
+  .light-theme & {
+    color: #666;
+  }
+  
+  .dark-theme & {
+    color: #aaa;
+  }
   
   @media (min-width: 768px) {
     gap: 0.75rem;
@@ -108,8 +156,13 @@ export const MetaItem = styled.div<{ color?: string }>`
   display: flex;
   align-items: center;
   gap: 0.125rem;
-  color: ${props => props.color || '#666'};
+  color: ${props => props.color || ''};
   font-size: 0.625rem;
+  transition: color 0.3s ease;
+  
+  .dark-theme &:not([style*="color"]) {
+    color: #aaa;
+  }
   
   @media (min-width: 768px) {
     font-size: 0.75rem;
@@ -119,10 +172,18 @@ export const MetaItem = styled.div<{ color?: string }>`
 
 export const TaskDescription = styled.div<{ completed: boolean }>`
   font-size: 0.75rem;
-  color: ${props => props.completed ? '#999' : '#666'};
   margin-bottom: 0.5rem;
   line-height: 1.4;
   word-break: break-word;
+  transition: color 0.3s ease;
+  
+  .light-theme & {
+    color: ${props => props.completed ? '#999' : '#666'};
+  }
+  
+  .dark-theme & {
+    color: ${props => props.completed ? '#888' : '#ccc'};
+  }
   
   @media (min-width: 768px) {
     font-size: 0.875rem;
@@ -136,7 +197,16 @@ export const TaskFooter = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   padding-top: 0.5rem;
-  border-top: 1px solid #eee;
+  border-top: 1px solid;
+  transition: border-color 0.3s ease;
+  
+  .light-theme & {
+    border-top-color: #eee;
+  }
+  
+  .dark-theme & {
+    border-top-color: #444;
+  }
   
   @media (min-width: 480px) {
     flex-direction: row;
@@ -154,11 +224,20 @@ export const TagsContainer = styled.div`
 `;
 
 export const Tag = styled.span`
-  background: #e9ecef;
-  color: #495057;
   padding: 0.125rem 0.375rem;
   border-radius: 10px;
   font-size: 0.5625rem;
+  transition: all 0.3s ease;
+  
+  .light-theme & {
+    background: #e9ecef;
+    color: #495057;
+  }
+  
+  .dark-theme & {
+    background: #2d2d2d;
+    color: #ccc;
+  }
   
   @media (min-width: 768px) {
     padding: 0.125rem 0.5rem;
@@ -169,8 +248,16 @@ export const Tag = styled.span`
 
 export const TimeInfo = styled.div`
   font-size: 0.625rem;
-  color: #999;
+  transition: color 0.3s ease;
   text-align: right;
+  
+  .light-theme & {
+    color: #999;
+  }
+  
+  .dark-theme & {
+    color: #888;
+  }
   
   @media (min-width: 768px) {
     font-size: 0.75rem;
@@ -185,6 +272,7 @@ export const StatusBadge = styled.span<{ color: string }>`
   font-size: 0.5625rem;
   font-weight: 500;
   white-space: nowrap;
+  transition: all 0.3s ease;
   
   @media (min-width: 768px) {
     padding: 0.125rem 0.5rem;

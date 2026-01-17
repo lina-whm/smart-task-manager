@@ -9,7 +9,8 @@ html {
   scroll-behavior: smooth;
   width: 100%;
   overflow-x: hidden;
-  -webkit-text-size-adjust: 100%; /* Предотвращает масштабирование текста на iOS */
+  -webkit-text-size-adjust: 100%;
+  transition: background-color 0.3s ease;
 }
 
 body {
@@ -24,10 +25,20 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   background-attachment: fixed;
   background-size: cover;
-  -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
+  -webkit-overflow-scrolling: touch;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.light-theme {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  color: #333;
+}
+
+body.dark-theme {
+  background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+  color: #e0e0e0;
 }
 
 /* Предотвращает горизонтальный скролл на мобильных */
@@ -36,48 +47,16 @@ html, body {
   position: relative;
 }
 
-/* Гарантируем что все элементы внутри #root не выходят за границы */
 #root {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* Контейнер для всего контента */
 .content-wrapper {
   width: 100%;
   max-width: 100%;
   overflow: hidden;
-}
-
-/* Исправление для мобильных устройств */
-@media (max-width: 767px) {
-  /* Убираем горизонтальную прокрутку */
-  html, body {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-  
-  /* Разрешаем вертикальную прокрутку только для основного контента */
-  #root {
-    height: 100%;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  /* Гарантируем что все элементы не выходят за экран */
-  * {
-    max-width: 100vw;
-  }
-  
-  /* Исправление для Safari на iOS */
-  @supports (-webkit-touch-callout: none) {
-    #root {
-      height: -webkit-fill-available;
-    }
-  }
 }
 
 /* Улучшенный скроллбар */
@@ -86,24 +65,46 @@ html, body {
   height: 8px;
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
+body.light-theme {
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4290 100%);
+  }
 }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #5a6fd8 0%, #6a4290 100%);
+body.dark-theme {
+  ::-webkit-scrollbar-track {
+    background: #2d2d2d;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #8a9eff 0%, #a366c9 100%);
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #7a8fef 0%, #9356b9 100%);
+  }
 }
 
 /* Focus styles */
 *:focus {
   outline: 2px solid #667eea;
   outline-offset: 2px;
+}
+
+.dark-theme *:focus {
+  outline-color: #8a9eff;
 }
 
 *:focus:not(.focus-visible) {
@@ -132,4 +133,29 @@ body {
   -moz-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   text-size-adjust: 100%;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Транзишены для плавной смены темы */
+.theme-transition * {
+  transition: background-color 0.3s ease, 
+              color 0.3s ease, 
+              border-color 0.3s ease,
+              box-shadow 0.3s ease !important;
 }

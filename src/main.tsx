@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
 import { createGlobalStyle } from 'styled-components';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -10,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     max-width: 100%;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   }
 
   html, body {
@@ -27,12 +29,18 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
     min-height: 100vh;
     -webkit-overflow-scrolling: touch;
+    
+    &.light-theme {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: #333;
+    }
+    
+    &.dark-theme {
+      background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+      color: #e0e0e0;
+    }
   }
 
   #root {
@@ -42,7 +50,6 @@ const GlobalStyle = createGlobalStyle`
     position: relative;
   }
 
-  /* Гарантируем что все контейнеры влезают в экран */
   .mobile-safe {
     width: 100%;
     max-width: 100vw;
@@ -62,24 +69,34 @@ const GlobalStyle = createGlobalStyle`
       monospace;
   }
 
-  /* Улучшенный скроллбар */
+  /* Улучшенный скроллбар для темной темы */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
 
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
+  .light-theme {
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
   }
 
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 4px;
+  .dark-theme {
+    ::-webkit-scrollbar-track {
+      background: #2d2d2d;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #8a9eff 0%, #a366c9 100%);
+    }
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #5a6fd8 0%, #6a4290 100%);
+    opacity: 0.8;
   }
 
   /* Исправление для iOS Safari */
@@ -96,9 +113,11 @@ const GlobalStyle = createGlobalStyle`
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <GlobalStyle />
-    <div className="mobile-safe">
-      <App />
-    </div>
+    <ThemeProvider>
+      <GlobalStyle />
+      <div className="mobile-safe">
+        <App />
+      </div>
+    </ThemeProvider>
   </React.StrictMode>
 );
